@@ -1,13 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-
 using SportsLeague.DataAccess.Context;
-
 using SportsLeague.DataAccess.Repositories;
-
 using SportsLeague.Domain.Interfaces.Repositories;
-
 using SportsLeague.Domain.Interfaces.Services;
-
 using SportsLeague.Domain.Services;
 
 
@@ -28,12 +23,12 @@ builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
-
+builder.Services.AddScoped<IPlayerRepository, PlayerRepository>(); //Nuevo
 
 // ── Services ──
 
 builder.Services.AddScoped<ITeamService, TeamService>();
-
+builder.Services.AddScoped<IPlayerService, PlayerService>(); //Nuevo
 
 // ── AutoMapper ──
 
