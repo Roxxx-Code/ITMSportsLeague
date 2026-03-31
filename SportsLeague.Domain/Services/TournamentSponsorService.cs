@@ -87,4 +87,9 @@ public class TournamentSponsorService : ITournamentSponsorService
     {
         return await _tsRepository.GetByTournamentAsync(tournamentId);
     }
+
+    public async Task<IEnumerable<TournamentSponsor>> GetTournamentsBySponsorAsync(int sponsorId)
+    {
+        return await _tsRepository.GetBySponsorAsync(sponsorId);
+    }
 }
