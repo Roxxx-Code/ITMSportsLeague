@@ -1,14 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
-
 using SportsLeague.Domain.Entities;
-
 using SportsLeague.Domain.Interfaces.Repositories;
-
 using SportsLeague.Domain.Interfaces.Services;
 
-
 namespace SportsLeague.Domain.Services;
-
 
 public class TeamService : ITeamService
 
@@ -67,15 +62,10 @@ public class TeamService : ITeamService
         // Validación de negocio: nombre único
 
         var existingTeam = await _teamRepository.GetByNameAsync(team.Name);
-
         if (existingTeam != null)
-
         {
-
             _logger.LogWarning("Team with name '{TeamName}' already exists", team.Name);
-
             throw new InvalidOperationException(
-
             $"Ya existe un equipo con el nombre '{team.Name}'");
 
         }

@@ -23,9 +23,11 @@ builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>(); //Nuevo
+builder.Services.AddScoped<ISponsorRepository, SponsorRepository>();
 builder.Services.AddScoped<IRefereeRepository, RefereeRepository>(); // NUEVO
 builder.Services.AddScoped<ITournamentRepository, TournamentRepository>(); // NUEVO
 builder.Services.AddScoped<ITournamentTeamRepository, TournamentTeamRepository>(); // NUEVO
+builder.Services.AddScoped<ITournamentSponsorRepository, TournamentSponsorRepository>();
 
 // ── Services ──
 
@@ -33,6 +35,7 @@ builder.Services.AddScoped<ITeamService, TeamService>();
 builder.Services.AddScoped<IPlayerService, PlayerService>(); //Nuevo
 builder.Services.AddScoped<IRefereeService, RefereeService>(); // NUEVO
 builder.Services.AddScoped<ITournamentService, TournamentService>(); // NUEVO
+builder.Services.AddScoped<ISponsorService, SponsorService>();
 
 // ── AutoMapper ──
 

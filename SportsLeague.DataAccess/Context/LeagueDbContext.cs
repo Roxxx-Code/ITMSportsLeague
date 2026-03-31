@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SportsLeague.Domain.Entities;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SportsLeague.DataAccess.Context;
 
@@ -20,6 +21,9 @@ public class LeagueDbContext : DbContext
     public DbSet<Referee> Referees => Set<Referee>(); // NUEVO
     public DbSet<Tournament> Tournaments => Set<Tournament>(); // NUEVO
     public DbSet<TournamentTeam> TournamentTeams => Set<TournamentTeam>(); // NUEVO
+    public DbSet<Sponsor> Sponsors => Set<Sponsor>();
+    public DbSet<TournamentSponsor> TournamentSponsors => Set<TournamentSponsor>(); // NUEVO
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
 
     {
@@ -147,6 +151,82 @@ public class LeagueDbContext : DbContext
 
         });
 
+        // ── TournamentSponsor Configuration ──
+        modelBuilder.Entity<TournamentSponsor>(entity =>
+        {
+            entity.HasKey(ts => ts.Id);
+            entity.Property(ts => ts.JoinedAt)
+                  .IsRequired();
+            entity.Property(ts => ts.ContractAmount)
+                  .IsRequired();
+
+            // Relación con Tournament
+            entity.HasOne(ts => ts.Tournament)
+                  .WithMany(s => s.TournamentSponsors)
+                  .HasForeignKey(ts => ts.TournamentId)
+                  .OnDelete(DeleteBehavior.Cascade);
+
+            // Relación con Team
+            entity.HasOne(ts => ts.Sponsor)
+                  .WithMany(s => s.TournamentSponsors)
+                  .HasForeignKey(ts => ts.SponsorId)
+                  .OnDelete(DeleteBehavior.Cascade);
+
+            //Índice único compuesto:  para evitar que un sponsor se vincule dos veces
+            //al mismo torneo
+             entity.HasIndex(ts => new { ts.TournamentId, ts.SponsorId })
+                  .IsUnique();
+
+
+        });
+
+        // ── Team Configuration ──
+        modelBuilder.Entity<Team>(entity =>
+        {
+            entity.HasKey(t => t.Id);
+            entity.Property(t => t.Name)
+                  .IsRequired()
+                  .HasMaxLength(100);
+            entity.Property(t => t.City)
+                  .IsRequired()
+                  .HasMaxLength(100);
+            entity.Property(t => t.Stadium)
+                  .HasMaxLength(150);
+            entity.Property(t => t.LogoUrl)
+                  .HasMaxLength(500);
+            entity.Property(t => t.CreatedAt)
+                  .IsRequired();
+            entity.Property(t => t.UpdatedAt)
+                  .IsRequired(false);
+            entity.HasIndex(t => t.Name)
+                  .IsUnique();
+        });
+
+        // ── Sponsor Configuration ──
+        modelBuilder.Entity<Sponsor>(entity =>
+        {
+            entity.HasKey(s => s.Id);
+            entity.Property(s => s.Name)
+                  .IsRequired()
+                  .HasMaxLength(80);
+            entity.Property(s => s.ContactEmail)
+                  .IsRequired()
+                  .HasMaxLength(80);
+            entity.Property(s => s.Phone)
+                  .IsRequired(false);
+            entity.Property(s => s.WebsiteUrl)
+                  .IsRequired(false);
+            entity.Property(s => s.Category)
+                  .IsRequired();
+            entity.Property(s => s.CreatedAt)
+                  .IsRequired();
+            entity.Property(s => s.UpdatedAt)
+                  .IsRequired(false);
+
+            //  índice único en la propiedad Name para que no se puedan crear dos sponsors con el mismo nombre.
+            entity.HasIndex(s => new { s.Name })
+                .IsUnique();
+        });
 
         // ── Player Configuration ──
 
@@ -155,7 +235,6 @@ public class LeagueDbContext : DbContext
         {
 
             entity.HasKey(p => p.Id);
-
             entity.Property(p => p.FirstName)
 
             .IsRequired()
@@ -262,6 +341,12 @@ public class LeagueDbContext : DbContext
     }
 
 }
+
+
+
+
+
+
 
 // La clase LeagueDbContext es el contexto de base de datos que hereda de DbContext.
 // Define un DbSet<Team> para acceder a la tabla de equipos en la base de datos.

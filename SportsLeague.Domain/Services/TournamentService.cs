@@ -1,13 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-
 using SportsLeague.Domain.Entities;
-
 using SportsLeague.Domain.Enums;
-
 using SportsLeague.Domain.Interfaces.Repositories;
-
 using SportsLeague.Domain.Interfaces.Services;
-
 
 namespace SportsLeague.Domain.Services;
 
@@ -17,11 +12,8 @@ public class TournamentService : ITournamentService
 {
 
     private readonly ITournamentRepository _tournamentRepository;
-
     private readonly ITournamentTeamRepository _tournamentTeamRepository;
-
     private readonly ITeamRepository _teamRepository;
-
     private readonly ILogger<TournamentService> _logger;
 
 
@@ -38,11 +30,8 @@ public class TournamentService : ITournamentService
     {
 
         _tournamentRepository = tournamentRepository;
-
         _tournamentTeamRepository = tournamentTeamRepository;
-
         _teamRepository = teamRepository;
-
         _logger = logger;
 
     }
