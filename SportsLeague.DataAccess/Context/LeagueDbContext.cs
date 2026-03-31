@@ -158,7 +158,8 @@ public class LeagueDbContext : DbContext
             entity.Property(ts => ts.JoinedAt)
                   .IsRequired();
             entity.Property(ts => ts.ContractAmount)
-                  .IsRequired();
+                  .IsRequired()
+                  .HasPrecision(18, 2);
 
             // Relación con Tournament
             entity.HasOne(ts => ts.Tournament)
