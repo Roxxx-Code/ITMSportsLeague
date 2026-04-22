@@ -28,7 +28,7 @@ builder.Services.AddScoped<IRefereeRepository, RefereeRepository>(); // NUEVO
 builder.Services.AddScoped<ITournamentRepository, TournamentRepository>(); // NUEVO
 builder.Services.AddScoped<ITournamentTeamRepository, TournamentTeamRepository>(); // NUEVO
 builder.Services.AddScoped<ITournamentSponsorRepository, TournamentSponsorRepository>();
-
+builder.Services.AddScoped<IMatchRepository, MatchRepository>();
 
 // ── Services ──
 
@@ -38,7 +38,7 @@ builder.Services.AddScoped<IRefereeService, RefereeService>(); // NUEVO
 builder.Services.AddScoped<ITournamentService, TournamentService>(); // NUEVO
 builder.Services.AddScoped<ISponsorService, SponsorService>();
 builder.Services.AddScoped<ITournamentSponsorService, TournamentSponsorService>();
-
+builder.Services.AddScoped<IMatchService, MatchService>();
 // ── AutoMapper ──
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
