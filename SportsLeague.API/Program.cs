@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SportsLeague.DataAccess.Context;
 using SportsLeague.DataAccess.Repositories;
+using SportsLeague.Domain.Helpers;
 using SportsLeague.Domain.Interfaces.Repositories;
 using SportsLeague.Domain.Interfaces.Services;
 using SportsLeague.Domain.Services;
@@ -29,6 +30,9 @@ builder.Services.AddScoped<ITournamentRepository, TournamentRepository>(); // NU
 builder.Services.AddScoped<ITournamentTeamRepository, TournamentTeamRepository>(); // NUEVO
 builder.Services.AddScoped<ITournamentSponsorRepository, TournamentSponsorRepository>();
 builder.Services.AddScoped<IMatchRepository, MatchRepository>();
+builder.Services.AddScoped<IMatchResultRepository, MatchResultRepository>();
+builder.Services.AddScoped<IGoalRepository, GoalRepository>();
+builder.Services.AddScoped<ICardRepository, CardRepository>();
 
 // ── Services ──
 
@@ -39,6 +43,8 @@ builder.Services.AddScoped<ITournamentService, TournamentService>(); // NUEVO
 builder.Services.AddScoped<ISponsorService, SponsorService>();
 builder.Services.AddScoped<ITournamentSponsorService, TournamentSponsorService>();
 builder.Services.AddScoped<IMatchService, MatchService>();
+builder.Services.AddScoped<IMatchEventService, MatchEventService>();
+builder.Services.AddScoped<MatchValidationHelper>();
 // ── AutoMapper ──
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
