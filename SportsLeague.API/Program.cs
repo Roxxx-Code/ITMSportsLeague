@@ -32,7 +32,7 @@ builder.Services.AddScoped<IMatchRepository, MatchRepository>();
 builder.Services.AddScoped<IMatchResultRepository, MatchResultRepository>();
 builder.Services.AddScoped<IGoalRepository, GoalRepository>();
 builder.Services.AddScoped<ICardRepository, CardRepository>();
-
+builder.Services.AddScoped<IStandingsService, StandingsService>();
 // ── Services ──
 
 builder.Services.AddScoped<ITeamService, TeamService>();
