@@ -1,8 +1,6 @@
 ﻿using SportsLeague.Domain.Enums;
 
-
 namespace SportsLeague.Domain.Entities;
-
 
 public class Match : AuditBase
 
@@ -43,5 +41,8 @@ public class Match : AuditBase
 
     public ICollection<Goal> Goals { get; set; } = new List<Goal>();
     public ICollection<Card> Cards { get; set; } = new List<Card>();
+
+    // Match lineup: convocatorias
+    public ICollection<MatchLineup> MatchLineups { get; set; } = new List<MatchLineup>();
 
 }

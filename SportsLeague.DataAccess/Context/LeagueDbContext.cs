@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SportsLeague.Domain.Entities;
+using SportsLeague.Domain.Enums;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SportsLeague.DataAccess.Context;
@@ -16,6 +17,8 @@ public class LeagueDbContext : DbContext
 
     }
 
+
+
     public DbSet<Team> Teams => Set<Team>();
     public DbSet<Player> Players => Set<Player>();
     public DbSet<Referee> Referees => Set<Referee>(); // NUEVO
@@ -27,6 +30,7 @@ public class LeagueDbContext : DbContext
     public DbSet<MatchResult> MatchResults => Set<MatchResult>();
     public DbSet<Goal> Goals => Set<Goal>();
     public DbSet<Card> Cards => Set<Card>();
+    public DbSet<MatchLineup> MatchLineups => Set<MatchLineup>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
 
     {
@@ -266,6 +270,34 @@ public class LeagueDbContext : DbContext
 
                   .OnDelete(DeleteBehavior.Restrict);
 
+        });
+
+        // ── MatchLineup Configuration ──
+
+        modelBuilder.Entity<MatchLineup>(entity =>
+        {
+            entity.HasKey(ml => ml.Id);
+
+            entity.Property(ml => ml.IsStarter).IsRequired();
+            entity.Property(ml => ml.Position)
+                  .IsRequired()
+                  .HasConversion<string>()
+                  .HasMaxLength(10);
+            entity.Property(ml => ml.CreatedAt).IsRequired();
+            entity.Property(ml => ml.UpdatedAt).IsRequired(false);
+
+            entity.HasOne(ml => ml.Match)
+                  .WithMany(m => m.MatchLineups)
+                  .HasForeignKey(ml => ml.MatchId)
+                  .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(ml => ml.Player)
+                  .WithMany(p => p.MatchLineups)
+                  .HasForeignKey(ml => ml.PlayerId)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            // Un jugador solo puede tener una convocatoria por partido
+            entity.HasIndex(ml => new { ml.MatchId, ml.PlayerId }).IsUnique();
         });
 
         // ── Referee Configuration ──
